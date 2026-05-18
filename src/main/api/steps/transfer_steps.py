@@ -22,7 +22,7 @@ class TransferSteps(BaseSteps):
         return response
 
     def invalid_transfer_user(self, transfer_user_request: TransferUserRequest, create_user_request):
-        CrudRequester(
+        response = CrudRequester(
             RequestSpecs.auth_headers(
                 username=create_user_request.username,
                 password=create_user_request.password
@@ -30,3 +30,4 @@ class TransferSteps(BaseSteps):
             Endpoint.TRANSFER_ACCOUNT,
             ResponseSpecs.request_unprocessable()
         ).post(transfer_user_request)
+        return response

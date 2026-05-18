@@ -1,14 +1,13 @@
 import pytest
 from sqlalchemy.orm import Session
-
 from main.api.classes.api_manager import ApiManager
 from main.api.fixtures.db_fixture import db_session
 from main.api.generators.model_generator import RandomModelGenerator
 from src.db.crud.user_crud import UserCrudDB as User
 from src.main.api.models.create_user_request import CreateUserRequest
 
-
 @pytest.mark.api
+@pytest.mark.create_user
 class TestCreateUser:
     @pytest.mark.parametrize(
         "create_user_request",
@@ -18,8 +17,8 @@ class TestCreateUser:
                                db_session: Session):
         response = api_manager.admin_steps.create_user(create_user_request)
 
-        assert create_user_request.username == response.username
-        assert create_user_request.role == response.role
+        assert create_user_request.username == response.username, 'Имя пользователя не совпадает'
+        assert create_user_request.role == response.role, 'Роль пользователя не совпадает'
         user_from_db = User.get_user_by_username(db_session, create_user_request.username)
         assert user_from_db.username == create_user_request.username, 'Созданного пользователя нет в бд'
 
@@ -41,6 +40,7 @@ class TestCreateUser:
     def test_create_user_invalid(self, db_session: Session, username: str, password: str, api_manager: ApiManager):
         create_user_request = CreateUserRequest(username=username, password=password, role="ROLE_USER")
 
-        api_manager.admin_steps.create_invalid_user(create_user_request)
+        response = api_manager.admin_steps.create_invalid_user(create_user_request)
+        assert "error" in response.json(),'не зафиксирована ошибка в ответе '
         user_from_db = User.get_user_by_username(db_session, create_user_request.username)
         assert user_from_db is None, 'Пользователь создан, ошибка '

@@ -31,5 +31,7 @@ class TestDeposit:
                              amount:float,
                              create_credit_request: CreateUserRequest, solo_account_create: DepositUserRequest):
         solo_account_create.amount = amount
-        api_manager.balance_steps.invalid_deposit_user(solo_account_create, create_credit_request)
+        response = api_manager.balance_steps.invalid_deposit_user(solo_account_create, create_credit_request)
+        assert "error" in response.json(),'не зафиксирована ошибка в ответе '
+
 
