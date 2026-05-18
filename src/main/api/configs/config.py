@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Any
 
+
 class Config:
     _isinstance = None
     _dictionary = {}
@@ -19,6 +20,7 @@ class Config:
                         key, value = line.split("=")
                         cls._dictionary[key.strip()] = value.strip()
         return cls._isinstance
+
     @staticmethod
     def fetch(key: str, default_value: Any = None) -> Any:
-        return Config()._dictionary.get(key,default_value)
+        return Config()._dictionary.get(key, default_value)

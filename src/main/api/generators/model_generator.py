@@ -1,7 +1,9 @@
-import uuid
 import random
+import uuid
 from typing import Any, get_type_hints, get_origin, Annotated, get_args
+
 import rstr
+
 from main.api.generators.creation_rule import CreationRule
 
 
@@ -17,7 +19,7 @@ class RandomModelGenerator:
             if get_origin(annotated_type) is Annotated:
                 actual_type, *annotations = get_args(annotated_type)
                 for ann in annotations:
-                    if isinstance(ann,CreationRule):
+                    if isinstance(ann, CreationRule):
                         rule = ann
             if rule:
                 value = RandomModelGenerator._generate_from_regex(rule.regex, actual_type)
@@ -25,6 +27,7 @@ class RandomModelGenerator:
                 value = RandomModelGenerator._generate_value(actual_type)
             init_data[field_name] = value
         return cls(**init_data)
+
     @staticmethod
     def _generate_from_regex(regex: str, field_type: type) -> Any:
         generated = rstr.xeger(regex)
