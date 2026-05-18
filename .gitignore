@@ -1,0 +1,10 @@
+# Allure
+allure-results/
+allure-results
+
+# Архивы
+*.zip
+
+# Виртуальное окружение
+.venv/
+venv/

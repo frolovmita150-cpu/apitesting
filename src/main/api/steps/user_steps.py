@@ -1,4 +1,3 @@
-
 from main.api.foundation.endpoint import Endpoint
 from main.api.foundation.requesters.validate_crud_requester import ValidateCRUDRequester
 from main.api.models.create_user_request import CreateUserRequest, CreateCreditRequest
@@ -15,6 +14,7 @@ class UserSteps(BaseSteps):
             ResponseSpecs.request_created()
         ).post()
         return response
+
     def create_credit_account(self, create_credit_request: CreateCreditRequest):
         response = ValidateCRUDRequester(
             RequestSpecs.auth_headers(username=create_credit_request.username, password=create_credit_request.password),

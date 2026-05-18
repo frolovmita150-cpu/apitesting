@@ -1,7 +1,8 @@
+import logging
 from typing import List, Any
 
 import pytest
-import logging
+
 from main.api.classes.api_manager import ApiManager
 from main.api.models.create_user_response import CreateUserResponse
 
@@ -11,6 +12,7 @@ def created_obj():
     objects: List[Any] = []
     yield objects
     clean_user(objects)
+
 
 def clean_user(objects: List[Any]):
     api_manager = ApiManager(objects)
