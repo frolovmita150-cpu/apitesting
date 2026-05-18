@@ -25,7 +25,7 @@ class BalanceSteps(BaseSteps):
         return response
 
     def invalid_deposit_user(self, deposit_user_request: DepositUserRequest, create_user_request):
-        CrudRequester(
+        response = CrudRequester(
             RequestSpecs.auth_headers(
                 username=create_user_request.username,
                 password=create_user_request.password
@@ -33,6 +33,7 @@ class BalanceSteps(BaseSteps):
             Endpoint.DEPOSIT_ACCOUNT,
             ResponseSpecs.request_bad()
         ).post(deposit_user_request)
+        return response
 
     # тоже подумал не выделять операции с балансов в отдельные степы
     def transfer_user(self, transfer_user_request: TransferUserRequest, create_user_request):
@@ -71,7 +72,7 @@ class BalanceSteps(BaseSteps):
         return response
 
     def invalid_credit_user(self, credit_user_request: CreditUserRequest, create_credit_request):
-        CrudRequester(
+        response = CrudRequester(
             RequestSpecs.auth_headers(
                 username=create_credit_request.username,
                 password=create_credit_request.password
@@ -79,6 +80,7 @@ class BalanceSteps(BaseSteps):
             Endpoint.CREDIT_USER,
             ResponseSpecs.request_forbidden()
         ).post(credit_user_request)
+        return response
 
     def credit_repay(self, credit_repay_request: CreditRepayRequest, create_credit_request):
         response = ValidateCRUDRequester(
@@ -92,7 +94,7 @@ class BalanceSteps(BaseSteps):
         return response
 
     def invalid_credit_repay(self, credit_repay_request: CreditRepayRequest, create_credit_request):
-        CrudRequester(
+        response = CrudRequester(
             RequestSpecs.auth_headers(
                 username=create_credit_request.username,
                 password=create_credit_request.password
@@ -100,3 +102,4 @@ class BalanceSteps(BaseSteps):
             Endpoint.CREDIT_REPAY,
             ResponseSpecs.request_unprocessable()
         ).post(credit_repay_request)
+        return response

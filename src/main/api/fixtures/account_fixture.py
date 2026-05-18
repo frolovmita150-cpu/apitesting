@@ -26,4 +26,3 @@ def solo_account_create(api_manager : ApiManager, create_credit_request : Create
         accountId = account_depa.id,
         amount = deposit_amount
     )
-
